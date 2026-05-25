@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://dhoxp5wdopllc"]
+
+[ext_resource type="PackedScene" uid="uid://bur07wou8i1ho" path="res://tiles/field.tscn" id="1_ig7tw"]
+
+[node name="Node" type="Node" unique_id=1736564266]
+
+[node name="testfield" parent="." unique_id=398616353 instance=ExtResource("1_ig7tw")]

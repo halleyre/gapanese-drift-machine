@@ -1,0 +1,15 @@
+logs/
+
+# Godot
+godot/.godot/
+godot/.nomedia
+
+godot/.import/
+godot/export.cfg
+godot/export_credentials.cfg
+
+godot/*.translation
+
+godot/.mono/
+godot/data_*/
+godot/mono_crash.*.json

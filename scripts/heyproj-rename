@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+THIS="${BASH_SOURCE[0]}"
+ROOT="$(dirname $THIS)/../"
+cd $ROOT
+
+PLACEHOLDER="heyproj"
+
+grep -rlZ $PLACEHOLDER . | xargs -0 sed -i "s:$PLACEHOLDER:$1:g"
+rename "$PLACEHOLDER" "$1" $ROOT/scripts/*
+rm $THIS

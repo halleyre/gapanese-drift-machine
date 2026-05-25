@@ -1,0 +1,2 @@
+# bones
+godot quickstart

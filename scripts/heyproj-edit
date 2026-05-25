@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+ROOT="$(dirname "${BASH_SOURCE[0]}")/../"
+cd $ROOT
+
+. $ROOT/scripts/util/background.sh
+LOGDIR="$ROOT/logs/godot"
+KILL_SCRIPT="$TMPSCRIPTS/heyproj-edit-$TIMESTAMP"
+background godot -e --path godot
