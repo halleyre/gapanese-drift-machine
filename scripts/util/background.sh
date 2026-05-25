@@ -2,7 +2,7 @@
 
 TIMESTAMP=`date +%Y%m%d-%H%M%S`
 LOGDIR="$ROOT/logs/misc"
-KILL_SCRIPT="$TMPSCRIPTS/heyproj-bg-misc-$TIMESTAMP"
+KILL_SCRIPT="$TMPSCRIPTS/gdm-bg-misc-$TIMESTAMP"
 
 background() {
   LOG="$LOGDIR/$TIMESTAMP.log"
