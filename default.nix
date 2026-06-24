@@ -1,5 +1,5 @@
 {
-  pkgs ? import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/ac5c47a.tar.gz") {},
+  pkgs ? import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/b4e8c68.tar.gz") {},
 }:
 with pkgs;
 mkShell {
