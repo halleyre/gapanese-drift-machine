@@ -28,7 +28,9 @@ func _physics_process(delta: float) -> void:
 		else:
 			x_direction = 0
 	
-	velocity.x = move_toward(velocity.x, speed*x_direction, speed/5)
+	#Character turns around quickly but accelerates at the same rate from "0"
+	
+	velocity.x = move_toward(velocity.x, speed*x_direction, max(2*abs(velocity.x - speed*x_direction), speed)/10)
 	
 	#Vertical Movement
 	
@@ -48,6 +50,8 @@ func _physics_process(delta: float) -> void:
 		else:
 			y_direction = 0
 	
-	velocity.y = move_toward(velocity.y, speed*y_direction, speed/5)
+	#Character turns around quickly but accelerates at the same rate from "0"
+	
+	velocity.y = move_toward(velocity.y, speed*y_direction, max(2*abs(velocity.y - speed*y_direction), speed)/10)
 	
 	move_and_slide()
