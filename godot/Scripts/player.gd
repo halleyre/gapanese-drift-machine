@@ -28,7 +28,7 @@ func _physics_process(delta: float) -> void:
 		else:
 			x_direction = 0
 	
-	velocity.x = speed*x_direction
+	velocity.x = move_toward(velocity.x, speed*x_direction, speed/5)
 	
 	#Vertical Movement
 	
@@ -48,5 +48,6 @@ func _physics_process(delta: float) -> void:
 		else:
 			y_direction = 0
 	
-	velocity.y = speed*y_direction
+	velocity.y = move_toward(velocity.y, speed*y_direction, speed/5)
+	
 	move_and_slide()
