@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=4 uid="uid://bn6b80q25bhta"]
+
+[ext_resource type="PackedScene" uid="uid://b6f7va1v3irup" path="res://Scenes/Player.tscn" id="1_jjgbg"]
+[ext_resource type="Texture2D" uid="uid://ob54an244bqq" path="res://Assets/Default Textures/Wall.png" id="2_bo1nx"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bo1nx"]
+texture = ExtResource("2_bo1nx")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+
+[sub_resource type="TileSet" id="TileSet_8gbba"]
+tile_size = Vector2i(32, 32)
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_bo1nx")
+
+[node name="Main" type="Node2D"]
+
+[node name="TileMap" type="Node" parent="."]
+
+[node name="Layer0" type="TileMapLayer" parent="TileMap"]
+use_parent_material = true
+tile_map_data = PackedByteArray("AAD5/wAAAAAAAAAAAAD6/wAAAAAAAAAAAAD7/wAAAAAAAAAAAAD8/wAAAAAAAAAAAAD9/wAAAAAAAAAAAAD+/wAAAAAAAAAAAAD//wAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAACAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAFAAAAAAAAAAAAAAAGAAAAAAAAAAAAAAAFAP//AAAAAAAAAAAFAP7/AAAAAAAAAAAGAP7/AAAAAAAAAAAGAP//AAAAAAAAAAAHAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAJAAAAAAAAAAAAAAAKAAAAAAAAAAAAAAAIAPv/AAAAAAAAAAAJAPv/AAAAAAAAAAAKAPv/AAAAAAAAAAALAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAANAAAAAAAAAAAAAAAOAAAAAAAAAAAAAAAPAAAAAAAAAAAAAAD4/wAAAAAAAAAAAAD3/wAAAAAAAAAAAAD2/wAAAAAAAAAAAAD1/wAAAAAAAAAAAAD0/wAAAAAAAAAAAAD3//3/AAAAAAAAAAD4//3/AAAAAAAAAAD5//3/AAAAAAAAAAD6//3/AAAAAAAAAAD7//3/AAAAAAAAAAD8//3/AAAAAAAAAAD///v/AAAAAAAAAAAAAPv/AAAAAAAAAAABAPv/AAAAAAAAAAACAPv/AAAAAAAAAAAHAPz/AAAAAAAAAAADAPz/AAAAAAAAAAA=")
+tile_set = SubResource("TileSet_8gbba")
+
+[node name="CharacterBody2D" parent="." instance=ExtResource("1_jjgbg")]
+position = Vector2(-22, -83)
+
+[node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]
+position = Vector2(-36, -45)
