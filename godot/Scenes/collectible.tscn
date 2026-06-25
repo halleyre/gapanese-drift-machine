@@ -1,5 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://buqyit1qnxm6s"]
+[gd_scene load_steps=6 format=3 uid="uid://buqyit1qnxm6s"]
 
+[ext_resource type="Script" uid="uid://dxki4mnh1k7dv" path="res://Scripts/collectible.gd" id="1_athsx"]
 [ext_resource type="Texture2D" uid="uid://ccqedrotmfsom" path="res://Assets/Default Textures/Collectible.png" id="1_fwdfn"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_athsx"]
@@ -21,9 +22,13 @@ animations = [{
 size = Vector2(32, 32)
 
 [node name="Collectible" type="Area2D"]
+collision_mask = 2
+script = ExtResource("1_athsx")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_7xeth")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_fwdfn")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

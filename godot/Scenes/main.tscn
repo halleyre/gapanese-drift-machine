@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://b6f7va1v3irup" path="res://Scenes/Player.tscn" id="1_jjgbg"]
 [ext_resource type="Texture2D" uid="uid://ob54an244bqq" path="res://Assets/Default Textures/Wall.png" id="2_bo1nx"]
-[ext_resource type="Texture2D" uid="uid://ccqedrotmfsom" path="res://Assets/Default Textures/Collectible.png" id="3_8gbba"]
+[ext_resource type="PackedScene" uid="uid://buqyit1qnxm6s" path="res://Scenes/collectible.tscn" id="3_8gbba"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bo1nx"]
 texture = ExtResource("2_bo1nx")
@@ -31,18 +31,14 @@ position = Vector2(-22, -83)
 [node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]
 position = Vector2(-36, -45)
 
-[node name="Collectible" type="Sprite2D" parent="."]
-position = Vector2(-112, -208)
-texture = ExtResource("3_8gbba")
+[node name="Collectible" parent="." instance=ExtResource("3_8gbba")]
+position = Vector2(-152, -200)
 
-[node name="Collectible2" type="Sprite2D" parent="."]
-position = Vector2(-208, -392)
-texture = ExtResource("3_8gbba")
+[node name="Collectible2" parent="." instance=ExtResource("3_8gbba")]
+position = Vector2(-208, 144)
 
-[node name="Collectible3" type="Sprite2D" parent="."]
-position = Vector2(-88, 72)
-texture = ExtResource("3_8gbba")
+[node name="Collectible3" parent="." instance=ExtResource("3_8gbba")]
+position = Vector2(392, 96)
 
-[node name="Collectible4" type="Sprite2D" parent="."]
-position = Vector2(16, -272)
-texture = ExtResource("3_8gbba")
+[node name="Collectible4" parent="." instance=ExtResource("3_8gbba")]
+position = Vector2(-144, -432)
