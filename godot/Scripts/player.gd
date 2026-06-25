@@ -37,7 +37,7 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("ui_up"):
 		y_direction = -1
 		
-	if Input.is_action_just_released("uia_down") and y_direction == 1:
+	if Input.is_action_just_released("ui_down") and y_direction == 1:
 		if Input.is_action_pressed("ui_up"):
 			y_direction = -1
 		else:
