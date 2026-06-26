@@ -1,8 +1,9 @@
 [gd_scene format=3 uid="uid://kcgik5h84fro"]
 
-[ext_resource type="Script" uid="uid://bwduyjs8b8j4o" path="res://src/world/biome_garden/garden.gd" id="1_g6qxt"]
+[ext_resource type="Script" uid="uid://bwduyjs8b8j4o" path="res://src/world/biome/biome_garden/garden.gd" id="1_g6qxt"]
 
-[node name="Garden" type="Node2D" unique_id=826107275]
+[node name="Garden" type="Node2D" unique_id=1458176023]
 script = ExtResource("1_g6qxt")
+metadata/_custom_type_script = "uid://c3pjl105vrokg"
 
 [node name="Floor" type="MeshInstance2D" parent="." unique_id=2033565542]
