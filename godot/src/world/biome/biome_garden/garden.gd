@@ -1,4 +1,3 @@
-@tool
 extends Node2D
 
 
@@ -11,15 +10,15 @@ extends Node2D
 		queue_redraw()
 @export var debug_size: int = 2
 
-# hex to screen
-var h2s := Transform2D(
+# hex to world
+var h2w := Transform2D(
 	Vector2( 2,      0 ),
 	Vector2( 1, sqrt(3)),
 	Vector2( 0,      0 )
 ) * hex_size / 2
 
-# screen to hex
-var s2h := h2s.affine_inverse()
+# world to hex
+var w2h := h2w.affine_inverse()
 
 # q+r+s = 0, s = -q-r
 # store by qr for [qrs displacment, texture]
@@ -35,18 +34,32 @@ func distance(a: Vector2i, b:= Vector2i.ZERO):
 	var r = a.y - b.y # row delta
 	return sqrt(q*q + q*r + r*r)
 
+var edge_noise: FastNoiseLite
+const EDGE_THRESHOLD = 0.2
+func init_noise():
+	edge_noise = FastNoiseLite.new()
+	edge_noise.seed = randi()
+	edge_noise.frequency = 0.001
+	edge_noise.noise_type = FastNoiseLite.TYPE_SIMPLEX
+
 enum {APOS, TERRAIN}
-enum {BLANK, EDGE}
+enum {CLEAR, EDGE}
 func gen_hex(pos: Vector2i):
 	var jitter = Vector3.ZERO
-	var terrain = BLANK
-	if distance(pos) > grid_size: terrain = EDGE
-	return [Vector3(pos.x + jitter.x,
-					pos.y + jitter.y,
-					jitter.z - pos.x - pos.y),
+
+	var terrain = CLEAR
+	if abs(edge_noise.get_noise_2dv(h2w * Vector2(pos))) > EDGE_THRESHOLD:
+		terrain = EDGE
+	if distance(pos) > grid_size:
+		terrain = EDGE
+
+	return [Vector2(pos.x + jitter.x - jitter.z/2,
+					pos.y + jitter.y - jitter.z/2),
 			terrain]
 
 func _init() -> void:
+	init_noise()
+	
 	var pos = Vector2i.ZERO
 	grid[pos] = gen_hex(pos)
 
@@ -73,14 +86,16 @@ func _init() -> void:
 		pos = new_pos
 		dfs.append(0)
 
+const debug_colours = [Color.AQUA,
+					   Color.BLACK]
+
 func _draw():
 	if not show_debug: return
 
 	for hex in grid.values():
-		draw_circle(h2s * Vector2(hex[APOS].x, hex[APOS].y), debug_size, Color.AQUA)
+		draw_circle(h2w * hex[APOS],
+					debug_size,
+					debug_colours[hex[TERRAIN]])
 
 func _process(_d):
 	if show_debug: queue_redraw()
-		
-
-			
