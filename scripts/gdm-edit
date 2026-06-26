@@ -6,4 +6,4 @@ cd $ROOT
 . $ROOT/scripts/util/background.sh
 LOGDIR="$ROOT/logs/godot"
 KILL_SCRIPT="$TMPSCRIPTS/gdm-edit-$TIMESTAMP"
-background godot -e --path godot
+background godot -e --path godot $@
