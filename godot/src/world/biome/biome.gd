@@ -36,16 +36,21 @@ static func cell_distance(a: Vector2i, b:= Vector2i.ZERO):
 	return sqrt(q*q + q*r + r*r)
 
 # store by qr for [qrs displacment, texture]
+enum {SHIFT, TERRAIN}
 var grid_map: Dictionary[Vector2i, Array]
 
 # flat array for passing to shader
-var grid_arr: Array
-var ga_qoff := 0 # column offset
-var ga_qn   := 1 # column count (stride)
-var ga_roff := 0 # row offset
-var ga_rn   := 1 # row count
+class GridArray:
+	enum {Q, R}
+	var shift := PackedFloat32Array([])
+	var trn   := PackedByteArray([])
+	var qmin  := 0 # column
+	var qend  := 0 # - exclusive
+	var rmin  := 0 # row
+	var rend  := 0 # - exclusive
+var grid := GridArray.new()
 
-# enum {NULL, OOB, ...
+enum {NULL, OOB, CLEAR} # ...
 @abstract func get_hex(pos: Vector2i)
 
 func init_grid():
@@ -60,17 +65,61 @@ func init_grid():
 			dfs.pop_back()
 			pos += adj[(dfs.back()+3)%6] # invert last search
 			continue # unwind after each full rotation
-			
+
+		# check if search has already passed this direction
 		var new_pos = pos + adj[dfs.back()];
 		if grid_map.has(new_pos):
 			dfs[-1] += 1
 			continue
 
+		grid.qmin = min(grid.qmin, new_pos.x)
+		grid.qend = max(grid.qend, new_pos.x + 1)
+		grid.rmin = min(grid.rmin, new_pos.y)
+		grid.rend = max(grid.rend, new_pos.y + 1)
+
+		# check if search can continue this direction
 		var new_hex = get_hex(new_pos)
 		grid_map[new_pos] = new_hex
-		if new_hex[TERRAIN] == 1:
+		if new_hex[TERRAIN] == OOB:
 			dfs[-1] += 1
 			continue
 
+		# search around new cell
 		pos = new_pos
 		dfs.append(0)
+
+func init_biome():
+	init_grid()
+	for r in range(grid.rmin, grid.rend):
+		for q in range(grid.qmin, grid.qend):
+			var hex = grid_map.get(Vector2i(q,r), [Vector2.ZERO, NULL])
+			grid.shift.append_array([hex[SHIFT].x, hex[SHIFT].y])
+			grid.trn.append(hex[TERRAIN])
+
+
+const debug_colours = [Color.GRAY,
+					   Color.AQUA,
+					   Color.BLACK]
+func _draw():
+	if not show_debug: return
+
+	for hex in grid_map.keys():
+		var v = grid_map[hex]
+		draw_circle(h2w * (Vector2(hex) +  v[SHIFT]),
+					debug_size,
+					debug_colours[v[TERRAIN]])
+
+	for r in range(grid.rmin, grid.rend):
+		for q in range(grid.qmin, grid.qend):
+			var i = ((r - grid.rmin) * (grid.qend - grid.qmin)
+					 + q - grid.qmin)
+			var pos = Vector2(q + grid.shift[2*i + grid.Q],
+							  r + grid.shift[2*i + grid.R])
+			
+			draw_circle(h2w * pos,
+						debug_size * 2,
+						debug_colours[grid.trn[i]],
+						false)
+
+func _process(_d):
+	if show_debug: queue_redraw()

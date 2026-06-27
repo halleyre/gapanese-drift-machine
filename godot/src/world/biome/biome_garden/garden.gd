@@ -10,35 +10,20 @@ func init_noise():
 	edge_noise.frequency = 0.001
 	edge_noise.noise_type = FastNoiseLite.TYPE_SIMPLEX
 
-enum {APOS, TERRAIN}
-enum {CLEAR, EDGE}
-func gen_hex(pos: Vector2i):
-	var jitter = Vector3(randf(),randf(),randf())/2
+enum {_NULL, _OOB, _CLEAR}
+func get_hex(pos: Vector2i):
+	var shift = Vector2.RIGHT.rotated(randf()*2*PI)
+	shift *= randf() * cell_size / 2
+	shift = w2h * shift
 
 	var terrain = CLEAR
 	if abs(edge_noise.get_noise_2dv(h2w * Vector2(pos))) > EDGE_THRESHOLD:
-		terrain = EDGE
-	if distance(pos) > grid_size:
-		terrain = EDGE
+		terrain = OOB
+	if cell_distance(pos) > biome_radius:
+		terrain = OOB
 
-	return [Vector2(pos.x + jitter.x - jitter.z/2,
-					pos.y + jitter.y - jitter.z/2),
-			terrain]
+	return [shift, terrain]
 
 func _init() -> void:
 	init_noise()
-	
-
-const debug_colours = [Color.AQUA,
-					   Color.BLACK]
-
-func _draw():
-	if not show_debug: return
-
-	for hex in grid.values():
-		draw_circle(h2w * hex[APOS],
-					debug_size,
-					debug_colours[hex[TERRAIN]])
-
-func _process(_d):
-	if show_debug: queue_redraw()
+	init_biome()
